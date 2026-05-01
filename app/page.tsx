@@ -125,7 +125,8 @@ export default function Page() {
             18 years building and running the European equivalent of NYC's
             LL84 / LL87 / LL97 ecosystem — across 5,000+ inspection and audit
             missions, four offices, and the SaaS that's now in regulator
-            certification.
+            certification. BREEAM In-Use Practitioner, completing certification
+            in late 2026.
           </div>
 
           <div
@@ -168,7 +169,7 @@ export default function Page() {
             ["18+", "Years operating"],
             ["5,000+", "Missions delivered"],
             ["4", "Offices led"],
-            ["20+", "Modules shipped in BFY"]
+            ["$2M+", "Public-sector AMO program"]
           ].map(([n, l], i) => (
             <div key={i}>
               <div className="text-5xl md:text-6xl font-light mb-2 tracking-tight">{n}</div>
@@ -322,18 +323,26 @@ export default function Page() {
       <section className="py-16 md:py-20 px-6 md:px-12 border-y border-navy/10">
         <div className="max-w-7xl mx-auto">
           <div className="mono text-xs tracking-[0.25em] uppercase text-navy/50 mb-8">Credentials</div>
-          <div className="grid md:grid-cols-2 gap-x-12 gap-y-4 text-base md:text-lg">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-3 text-base md:text-lg">
+            <div className="flex items-baseline gap-4 border-b border-navy/10 pb-3">
+              <span className="mono text-[10px] tracking-[0.2em] text-terracotta">2026 →</span>
+              <span>BREEAM In-Use Practitioner · BRE Group (completing late 2026)</span>
+            </div>
             <div className="flex items-baseline gap-4 border-b border-navy/10 pb-3">
               <span className="mono text-[10px] tracking-[0.2em] text-terracotta">2020 →</span>
               <span>Court-Appointed Expert Witness · French Court of Appeals</span>
             </div>
             <div className="flex items-baseline gap-4 border-b border-navy/10 pb-3">
+              <span className="mono text-[10px] tracking-[0.2em] text-terracotta">Active</span>
+              <span>SS3 Asbestos Technical Supervisor · MAR State-Certified Energy Renovation Advisor</span>
+            </div>
+            <div className="flex items-baseline gap-4 border-b border-navy/10 pb-3">
               <span className="mono text-[10px] tracking-[0.2em] text-terracotta">2018–20</span>
-              <span>Master's, Real Estate Project Mgmt &amp; Development · ESTP Paris</span>
+              <span>Post-Graduate Specialized Master's · ESTP Paris</span>
             </div>
             <div className="flex items-baseline gap-4 border-b border-navy/10 pb-3">
               <span className="mono text-[10px] tracking-[0.2em] text-terracotta">2009–11</span>
-              <span>Master in Management · IAE Aix-en-Provence (English track, EQUIS)</span>
+              <span>M.S. in Management · IAE Aix-en-Provence (English track, EQUIS)</span>
             </div>
             <div className="flex items-baseline gap-4 border-b border-navy/10 pb-3">
               <span className="mono text-[10px] tracking-[0.2em] text-terracotta">Active</span>
