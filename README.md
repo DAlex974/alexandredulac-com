@@ -8,14 +8,14 @@ Built with Next.js 15 (App Router), Tailwind CSS, TypeScript, and Vercel Analyti
 
 ## 1. Local development (5 min)
 
-Requires Node.js 18.18+ (or 20+).
+Requires Node.js 22.x (see `.nvmrc`) and pnpm.
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Run dev server
-npm run dev
+pnpm dev
 ```
 
 Open http://localhost:3000 to view the site.
@@ -23,8 +23,8 @@ Open http://localhost:3000 to view the site.
 To build for production locally:
 
 ```bash
-npm run build
-npm start
+pnpm build
+pnpm start
 ```
 
 ---
