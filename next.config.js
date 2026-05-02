@@ -13,6 +13,11 @@ const nextConfig = {
         destination: "https://alexandredulac.com/:path*",
         permanent: true,
       },
+      {
+        source: "/intro",
+        destination: "https://calendar.app.google/we9AXs7jdZsbdwcZ8",
+        permanent: false,
+      },
     ];
   },
 };
