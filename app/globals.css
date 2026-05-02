@@ -33,3 +33,6 @@ body {
 .reveal {
   animation: fadeUp 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
+
+summary::-webkit-details-marker { display: none; }
+summary { list-style: none; }

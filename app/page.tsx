@@ -438,6 +438,16 @@ export default function Page() {
             <span className="italic text-terracotta">curious</span> — write.
           </h2>
 
+          <div className="mb-12">
+            <a
+              href="/intro"
+              className="group inline-flex items-center gap-3 bg-terracotta text-ivory px-7 py-4 mono text-xs tracking-[0.2em] uppercase hover:bg-navy transition-colors"
+            >
+              Or book a call directly
+              <ArrowUpRight className="w-4 h-4 group-hover:rotate-45 transition-transform" />
+            </a>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-6 gap-6 max-w-6xl">
             <a
               href="mailto:alexandre@alexandredulac.com"
