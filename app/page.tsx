@@ -438,38 +438,38 @@ export default function Page() {
             <span className="italic text-terracotta">curious</span> — write.
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl">
+          <div className="grid grid-cols-1 md:grid-cols-6 gap-6 max-w-6xl">
             <a
               href="mailto:alexandre@alexandredulac.com"
-              className="group border border-navy/20 p-8 hover:border-terracotta hover:bg-white transition-all"
+              className="group md:col-span-3 border border-navy/20 p-8 hover:border-terracotta hover:bg-white transition-all"
             >
               <Mail className="w-5 h-5 mb-4 text-terracotta" strokeWidth={1.5} />
               <div className="mono text-[10px] tracking-[0.25em] uppercase text-navy/50 mb-2">Email</div>
-              <div className="text-xl font-medium tracking-tight group-hover:text-terracotta transition-colors break-all">
-                alexandre@alexandredulac.com
+              <div className="text-lg font-medium tracking-tight group-hover:text-terracotta transition-colors break-all">
+                alexandre@<wbr />alexandredulac.com
               </div>
             </a>
             <a
               href="https://linkedin.com/in/alexandredulac"
               target="_blank"
               rel="noopener noreferrer"
-              className="group border border-navy/20 p-8 hover:border-terracotta hover:bg-white transition-all"
+              className="group md:col-span-2 border border-navy/20 p-8 hover:border-terracotta hover:bg-white transition-all"
             >
               <Linkedin className="w-5 h-5 mb-4 text-terracotta" strokeWidth={1.5} />
               <div className="mono text-[10px] tracking-[0.25em] uppercase text-navy/50 mb-2">LinkedIn</div>
-              <div className="text-xl font-medium tracking-tight group-hover:text-terracotta transition-colors">
+              <div className="text-lg font-medium tracking-tight group-hover:text-terracotta transition-colors">
                 linkedin.com/in/alexandredulac
               </div>
             </a>
             <a
               href="/resume/alexandre-dulac-director.pdf"
               download
-              className="group border border-navy/20 p-8 hover:border-terracotta hover:bg-white transition-all"
+              className="group md:col-span-1 border border-navy/20 p-8 hover:border-terracotta hover:bg-white transition-all"
             >
               <Download className="w-5 h-5 mb-4 text-terracotta" strokeWidth={1.5} />
               <div className="mono text-[10px] tracking-[0.25em] uppercase text-navy/50 mb-2">Resume</div>
-              <div className="text-xl font-medium tracking-tight group-hover:text-terracotta transition-colors">
-                Download my resume
+              <div className="text-base font-medium tracking-tight group-hover:text-terracotta transition-colors">
+                Download Resume
               </div>
             </a>
           </div>
