@@ -146,6 +146,13 @@ export default function Page() {
             >
               See the work
             </a>
+            <a
+              href="/resume.pdf"
+              download
+              className="inline-flex items-center gap-3 px-7 py-4 mono text-xs tracking-[0.2em] uppercase border border-navy/20 hover:border-navy transition-colors"
+            >
+              Download Resume
+            </a>
           </div>
         </div>
 
