@@ -1,16 +1,46 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { ArrowUpRight, Mail, MapPin, Linkedin, Building2, Zap, Scale, Box } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { ArrowUpRight, Mail, MapPin, Linkedin, Building2, Zap, Scale, Box, Download, ChevronDown } from "lucide-react";
 
 export default function Page() {
   const [scrolled, setScrolled] = useState(false);
+  const [resumeOpen, setResumeOpen] = useState(false);
+  const resumeRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (resumeRef.current && !resumeRef.current.contains(e.target as Node)) {
+        setResumeOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, []);
+
+  const resumes = [
+    {
+      label: "Track 01 · Sustainability & ESG",
+      role: "Director, Sustainability",
+      href: "/resume/alexandre-dulac-director.pdf",
+    },
+    {
+      label: "Track 02 · PropTech & Product",
+      role: "Senior PM / Head of Product",
+      href: "/resume/alexandre-dulac-proptech.pdf",
+    },
+    {
+      label: "Track 03 · Advisory & Consulting",
+      role: "Director, Sustainability Practice",
+      href: "/resume/alexandre-dulac-advisory.pdf",
+    },
+  ];
 
   const engagements = [
     {
@@ -146,6 +176,46 @@ export default function Page() {
             >
               See the work
             </a>
+            <div ref={resumeRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setResumeOpen((v) => !v)}
+                aria-expanded={resumeOpen}
+                aria-haspopup="true"
+                className="inline-flex items-center gap-3 px-7 py-4 mono text-xs tracking-[0.2em] uppercase border border-navy/20 hover:border-navy transition-colors"
+              >
+                <Download className="w-4 h-4" strokeWidth={1.5} />
+                Download Resume
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform duration-300 ${
+                    resumeOpen ? "rotate-180" : ""
+                  }`}
+                  strokeWidth={1.5}
+                />
+              </button>
+              <div
+                className={`absolute left-0 top-full mt-2 min-w-[280px] bg-ivory border border-navy/20 shadow-lg z-30 transition-opacity duration-300 ${
+                  resumeOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+                }`}
+                role="menu"
+              >
+                {resumes.map((r) => (
+                  <a
+                    key={r.href}
+                    href={r.href}
+                    download
+                    onClick={() => setResumeOpen(false)}
+                    className="block px-5 py-4 hover:bg-navy hover:text-ivory transition-colors duration-300"
+                    role="menuitem"
+                  >
+                    <div className="mono text-[10px] tracking-[0.25em] uppercase opacity-60 mb-1">
+                      {r.label}
+                    </div>
+                    <div className="font-medium tracking-tight">{r.role}</div>
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -334,7 +404,11 @@ export default function Page() {
             </div>
             <div className="flex items-baseline gap-4 border-b border-navy/10 pb-3">
               <span className="mono text-[10px] tracking-[0.2em] text-terracotta">Active</span>
-              <span>SS3 Asbestos Technical Supervisor · MAR State-Certified Energy Renovation Advisor</span>
+              <span>SS3 Asbestos Technical Supervisor · High-risk asbestos abatement supervision</span>
+            </div>
+            <div className="flex items-baseline gap-4 border-b border-navy/10 pb-3">
+              <span className="mono text-[10px] tracking-[0.2em] text-terracotta">Active</span>
+              <span>Energy Retrofit Program Advisor · Equivalent of NYSERDA EmPower+ / ENERGY STAR Home Performance</span>
             </div>
             <div className="flex items-baseline gap-4 border-b border-navy/10 pb-3">
               <span className="mono text-[10px] tracking-[0.2em] text-terracotta">2018–20</span>
@@ -364,7 +438,7 @@ export default function Page() {
             <span className="italic text-terracotta">curious</span> — write.
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl">
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl">
             <a
               href="mailto:alexandre@alexandredulac.com"
               className="group border border-navy/20 p-8 hover:border-terracotta hover:bg-white transition-all"
@@ -385,6 +459,17 @@ export default function Page() {
               <div className="mono text-[10px] tracking-[0.25em] uppercase text-navy/50 mb-2">LinkedIn</div>
               <div className="text-xl font-medium tracking-tight group-hover:text-terracotta transition-colors">
                 linkedin.com/in/alexandredulac
+              </div>
+            </a>
+            <a
+              href="/resume/alexandre-dulac-director.pdf"
+              download
+              className="group border border-navy/20 p-8 hover:border-terracotta hover:bg-white transition-all"
+            >
+              <Download className="w-5 h-5 mb-4 text-terracotta" strokeWidth={1.5} />
+              <div className="mono text-[10px] tracking-[0.25em] uppercase text-navy/50 mb-2">Resume</div>
+              <div className="text-xl font-medium tracking-tight group-hover:text-terracotta transition-colors">
+                Download my resume
               </div>
             </a>
           </div>

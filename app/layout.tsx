@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     template: "%s · Alexandre Dulac",
   },
   description:
-    "Director-level leader in real estate sustainability and energy compliance. 18+ years building and scaling a four-office European diagnostics firm, now founder of a cloud-native SaaS in regulator certification. Based in NYC.",
+    "Director-level leader in real estate sustainability and energy compliance. 18+ years building and scaling a transnational diagnostics firm, now founder of a cloud-native SaaS in regulator certification. BREEAM In-Use Practitioner. Court-Appointed Expert. Based in NYC, available immediately.",
   keywords: [
     "Alexandre Dulac",
     "Real Estate Sustainability",
@@ -21,6 +21,11 @@ export const metadata: Metadata = {
     "Director Sustainability NYC",
     "BFY-Diagnostics",
     "EDIMM",
+    "BREEAM",
+    "Sustainable Real Estate",
+    "ESG Director NYC",
+    "Energy Compliance NYC",
+    "Building Decarbonization",
   ],
   authors: [{ name: "Alexandre Dulac" }],
   creator: "Alexandre Dulac",
