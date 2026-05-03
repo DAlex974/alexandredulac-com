@@ -128,7 +128,7 @@ export default function Page() {
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 md:pt-40 pb-20 md:pb-32 px-6 md:px-12 relative overflow-hidden">
+      <section className="pt-32 md:pt-40 pb-20 md:pb-32 px-6 md:px-12 relative">
         <div className="max-w-7xl mx-auto">
           <div
             className="reveal mono text-xs tracking-[0.25em] uppercase mb-8 text-navy/60 flex items-center gap-3"
@@ -177,7 +177,7 @@ export default function Page() {
             >
               See the work
             </a>
-            <div ref={resumeRef} className="relative">
+            <div ref={resumeRef} className="relative z-40">
               <button
                 type="button"
                 onClick={() => setResumeOpen((v) => !v)}
@@ -195,7 +195,7 @@ export default function Page() {
                 />
               </button>
               <div
-                className={`absolute left-0 top-full mt-2 min-w-[280px] bg-ivory border border-navy/20 shadow-lg z-30 transition-opacity duration-300 ${
+                className={`absolute left-0 top-full mt-2 min-w-[280px] max-w-[calc(100vw-3rem)] bg-ivory border border-navy/20 shadow-lg z-50 transition-opacity duration-300 ${
                   resumeOpen ? "opacity-100" : "opacity-0 pointer-events-none"
                 }`}
                 role="menu"
@@ -234,7 +234,7 @@ export default function Page() {
       </section>
 
       {/* Stats strip */}
-      <section className="border-y border-navy/10 bg-navy text-ivory">
+      <section className="relative z-0 border-y border-navy/10 bg-navy text-ivory">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-12 md:py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
           {[
             ["18+", "Years operating"],
