@@ -128,7 +128,7 @@ export default function Page() {
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 md:pt-40 pb-20 md:pb-32 px-6 md:px-12 relative">
+      <section className="pt-32 md:pt-40 pb-20 md:pb-32 px-6 md:px-12 relative z-10">
         <div className="max-w-7xl mx-auto">
           <div
             className="reveal mono text-xs tracking-[0.25em] uppercase mb-8 text-navy/60 flex items-center gap-3"
