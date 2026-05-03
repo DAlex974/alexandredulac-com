@@ -156,7 +156,8 @@ export default function Page() {
             LL84 / LL87 / LL97 ecosystem — across 5,000+ inspection and audit
             missions, four offices, and the SaaS that's now in regulator
             certification. BREEAM In-Use Practitioner, completing certification
-            in late 2026.
+            in late 2026. Two master's degrees and an associate degree,
+            WES-evaluated as U.S. equivalents.
           </div>
 
           <div
@@ -412,16 +413,23 @@ export default function Page() {
             </div>
             <div className="flex items-baseline gap-4 border-b border-navy/10 pb-3">
               <span className="mono text-[10px] tracking-[0.2em] text-terracotta">2018–20</span>
-              <span>Post-Graduate Specialized Master's · ESTP Paris</span>
+              <span>M.S. in Real Estate Project Management &amp; Development · ESTP Paris</span>
             </div>
             <div className="flex items-baseline gap-4 border-b border-navy/10 pb-3">
-              <span className="mono text-[10px] tracking-[0.2em] text-terracotta">2009–11</span>
-              <span>M.S. in Management · IAE Aix-en-Provence (English track, EQUIS)</span>
+              <span className="mono text-[10px] tracking-[0.2em] text-terracotta">2010–11</span>
+              <span>M.S. in Management · IAE Aix-Marseille (English track, EQUIS-accredited)</span>
+            </div>
+            <div className="flex items-baseline gap-4 border-b border-navy/10 pb-3">
+              <span className="mono text-[10px] tracking-[0.2em] text-terracotta">2000–06</span>
+              <span>Associate Degree in Computer Engineering Technology · CNAM</span>
             </div>
             <div className="flex items-baseline gap-4 border-b border-navy/10 pb-3">
               <span className="mono text-[10px] tracking-[0.2em] text-terracotta">Active</span>
               <span>Bureau, French Energy &amp; Environment Association · Member, French Federation of Consulting Engineers</span>
             </div>
+          </div>
+          <div className="mt-6 italic text-sm text-navy/60">
+            All credentials evaluated by World Education Services · Reference #7120282
           </div>
         </div>
       </section>
