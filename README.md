@@ -1,8 +1,8 @@
 # alexandredulac.com
 
-Personal website for Alexandre Dulac — Real Estate Sustainability & PropTech Leader.
+Site for Alexandre Dulac — founder of Papilio Strategies LLC, a New York advisory practice for owners, investors, and PropTech founders working at the intersection of energy, sustainability, and real estate.
 
-Built with Next.js 15 (App Router), Tailwind CSS, TypeScript, and Vercel Analytics. Single-page editorial layout, ivory + navy + terracotta palette, Fraunces + JetBrains Mono typography.
+Built with Next.js 15 (App Router), Tailwind CSS, TypeScript, and Vercel Analytics. Editorial layout, charcoal palette (ivory + navy), Fraunces + JetBrains Mono typography.
 
 ---
 
@@ -100,7 +100,7 @@ Cloudflare Email Routing forwards emails to your existing Gmail at no cost.
 
 To **send** from `alexandre@alexandredulac.com` via Gmail, you'll need a relay (Cloudflare Email Routing is receive-only). Two options:
 - **Free:** use a Gmail SMTP setup with an app password (15 min config in Gmail Settings → Accounts → "Send mail as")
-- **Paid ($7/month):** upgrade to Google Workspace for full inbox/calendar/drive — recommended for an active job hunt
+- **Paid ($7/month):** upgrade to Google Workspace for full inbox/calendar/drive
 
 ---
 
@@ -120,7 +120,9 @@ GDPR-friendly, no cookies, no consent banner needed.
 
 Most edits happen in two files:
 
-- **`app/page.tsx`** — all visible content (engagements, tracks, headlines, contact)
+- **`app/page.tsx`** — home (ventures, services, contact)
+- **`app/profile/ProfileClient.tsx`** — long-form background and engagement history
+- **`app/intro/IntroClient.tsx`** — discovery call landing
 - **`app/layout.tsx`** — SEO metadata (title, description, Open Graph)
 
 After editing, push to GitHub and Vercel auto-deploys in ~45 seconds.
@@ -130,14 +132,15 @@ After editing, push to GitHub and Vercel auto-deploys in ~45 seconds.
 ## 7. File structure
 
 ```
-alexandredulac-site/
+alexandredulac-com/
 ├── app/
 │   ├── globals.css       # Tailwind + custom CSS (fonts, grain, animations)
 │   ├── layout.tsx        # Root layout, SEO metadata, Analytics
-│   ├── page.tsx          # The single-page site
+│   ├── page.tsx          # Home (advisory firm landing)
 │   ├── robots.ts         # robots.txt generator
-│   └── sitemap.ts        # sitemap.xml generator
-├── public/               # Static assets (favicon, og-image — to add later)
+│   ├── sitemap.ts        # sitemap.xml generator
+│   ├── intro/            # /intro — Discovery call booking
+│   └── profile/          # /profile — Long-form background
 ├── .gitignore
 ├── next.config.js        # www → apex redirect
 ├── package.json
@@ -153,9 +156,8 @@ alexandredulac-site/
 
 1. **Favicon** — drop `favicon.ico` (32×32) in `app/` directory. Use https://realfavicongenerator.net for a full set.
 2. **Open Graph image** — drop `opengraph-image.png` (1200×630) in `app/` for rich previews when the site is shared on LinkedIn / Slack / Twitter. Currently LinkedIn will fall back to your profile photo for the rich preview, which is fine to start.
-3. **Resume PDF download** — drop your CV at `public/Dulac_Alexandre_Resume.pdf` and add a link in `app/page.tsx` next to the contact buttons.
-4. **Case studies** — if you want to expand individual engagements (SEGRO, Adobe, Capital 8) into dedicated pages, create `app/work/[slug]/page.tsx`.
-5. **Blog or essays** — `app/notes/[slug]/page.tsx` with MDX support if you want to publish thinking on LL97 / European energy compliance / PropTech. Strong SEO play if you commit to it.
+3. **Case studies** — if you want to expand individual engagements (SEGRO, Adobe, Capital 8) into dedicated pages, create `app/work/[slug]/page.tsx`.
+4. **Blog or essays** — `app/notes/[slug]/page.tsx` with MDX support if you want to publish thinking on LL97 / European energy compliance / PropTech. Strong SEO play if you commit to it.
 
 ---
 

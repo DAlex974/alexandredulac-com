@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import IntroClient from "./IntroClient";
 
 export const metadata: Metadata = {
-  title: "Schedule a call · Alexandre Dulac",
+  title: "Discovery call · Alexandre Dulac",
   description:
-    "Book a 30-minute intro call with Alexandre Dulac to discuss real estate sustainability, PropTech, or LL97 compliance opportunities. Calls on Google Meet — instant confirmation.",
+    "Book a 30-minute discovery call with Alexandre Dulac, founder of Papilio Strategies, to discuss energy, sustainability, LL97 compliance, or PropTech product decisions. Google Meet, instant confirmation.",
   alternates: { canonical: "https://alexandredulac.com/intro" },
   openGraph: {
-    title: "Schedule a call · Alexandre Dulac",
+    title: "Discovery call · Alexandre Dulac",
     description:
-      "Book a 30-minute intro call with Alexandre Dulac to discuss real estate sustainability, PropTech, or LL97 compliance opportunities. Calls on Google Meet — instant confirmation.",
+      "Book a 30-minute discovery call with Alexandre Dulac, founder of Papilio Strategies. Google Meet, instant confirmation.",
     url: "https://alexandredulac.com/intro",
     type: "website",
   },

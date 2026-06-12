@@ -7,25 +7,26 @@ const SITE_URL = "https://alexandredulac.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Alexandre Dulac — Real Estate Sustainability & PropTech Leader",
+    default:
+      "Alexandre Dulac — Papilio Strategies | Energy & Sustainability Advisory, NYC",
     template: "%s · Alexandre Dulac",
   },
   description:
-    "Director-level leader in real estate sustainability and energy compliance. 18+ years building and scaling a transnational diagnostics firm, now founder of a cloud-native SaaS in regulator certification. BREEAM In-Use Practitioner. Court-Appointed Expert. Two master's degrees WES-evaluated as U.S. equivalents. Based in NYC, available immediately.",
+    "Papilio Strategies is a New York advisory practice helping owners, investors, and PropTech founders make energy, sustainability, and product decisions with operator-grade rigor. Founded by Alexandre Dulac — operator, founder, Court-Appointed Expert.",
   keywords: [
     "Alexandre Dulac",
-    "Real Estate Sustainability",
-    "PropTech",
+    "Papilio Strategies",
+    "Energy Advisory NYC",
+    "Sustainability Advisory",
+    "Real Estate Due Diligence",
     "LL97",
-    "Energy Compliance",
-    "Director Sustainability NYC",
-    "BFY-Diagnostics",
+    "Local Law 97",
+    "PropTech Advisory",
     "EDIMM",
+    "BFY-Diagnostics",
+    "Building Energy Compliance",
     "BREEAM",
-    "Sustainable Real Estate",
-    "ESG Director NYC",
-    "Energy Compliance NYC",
-    "Building Decarbonization",
+    "Court-Appointed Expert",
   ],
   authors: [{ name: "Alexandre Dulac" }],
   creator: "Alexandre Dulac",
@@ -34,16 +35,18 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: SITE_URL,
-    siteName: "Alexandre Dulac",
-    title: "Alexandre Dulac — Real Estate Sustainability & PropTech Leader",
+    siteName: "Alexandre Dulac · Papilio Strategies",
+    title:
+      "Alexandre Dulac — Papilio Strategies | Energy & Sustainability Advisory, NYC",
     description:
-      "18+ years scaling building energy compliance across Europe. Founder of EDIMM and BFY-Diagnostics. Based in NYC, available immediately.",
+      "Operator-grade advisory for owners, investors, and PropTech founders navigating energy, sustainability, and compliance.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Alexandre Dulac — Real Estate Sustainability & PropTech Leader",
+    title:
+      "Alexandre Dulac — Papilio Strategies | Energy & Sustainability Advisory, NYC",
     description:
-      "Director-level leader in real estate sustainability and energy compliance, based in NYC.",
+      "Operator-grade advisory for owners, investors, and PropTech founders.",
   },
   robots: {
     index: true,
