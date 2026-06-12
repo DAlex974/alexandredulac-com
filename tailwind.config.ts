@@ -9,7 +9,6 @@ const config: Config = {
       colors: {
         ivory: "#FAF8F3",
         navy: "#1A2332",
-        terracotta: "#C8553D",
       },
       fontFamily: {
         serif: ["Fraunces", "ui-serif", "Georgia", "serif"],
