@@ -43,8 +43,13 @@ function formatTonnes(n: number): string {
   });
 }
 
-function formatKg(n: number): string {
-  return n.toLocaleString("en-US", { maximumFractionDigits: 1 });
+function formatIntensityPerSqft(n: number): string {
+  // Matches DOB table convention (e.g. 0.00846 tCO2e/sf).
+  return n.toFixed(5);
+}
+
+function formatIntensityPerM2(n: number): string {
+  return n.toFixed(4);
 }
 
 function formatArea(n: number): string {
@@ -457,9 +462,9 @@ function PeriodBlock({
   m2: number;
 }) {
   const Icon = result.compliant ? CheckCircle2 : AlertTriangle;
-  const intensityPerSqft = sqft > 0 ? (emissions * 1000) / sqft : 0; // kg CO2e / sqft
-  const intensityPerM2 = m2 > 0 ? (emissions * 1000) / m2 : 0; // kg CO2e / m²
-  const capIntensityPerM2 = (capPerSf * 1000) / M2_PER_SQFT; // kg CO2e / m²
+  const intensityPerSqft = sqft > 0 ? emissions / sqft : 0; // tCO2e / sqft
+  const intensityPerM2 = m2 > 0 ? emissions / m2 : 0; // tCO2e / m²
+  const capIntensityPerM2 = capPerSf / M2_PER_SQFT; // tCO2e / m²
 
   return (
     <div className="bg-navy p-8 md:p-10">
@@ -476,7 +481,7 @@ function PeriodBlock({
           <span className="text-lg md:text-xl text-ivory/60 ml-2">tCO2e/yr</span>
         </div>
         <div className="mono text-[10px] tracking-[0.2em] uppercase text-ivory/50 mt-2">
-          {formatKg(intensityPerM2)} kg CO2e / m² · {formatKg(intensityPerSqft)} kg CO2e / sqft
+          {formatIntensityPerM2(intensityPerM2)} tCO2e / m² · {formatIntensityPerSqft(intensityPerSqft)} tCO2e / sqft
         </div>
       </div>
 
@@ -489,7 +494,7 @@ function PeriodBlock({
           <span className="text-sm text-ivory/60 ml-2">tCO2e/yr</span>
         </div>
         <div className="mono text-[10px] tracking-[0.2em] uppercase text-ivory/40 mt-1">
-          {formatKg(capIntensityPerM2)} kg CO2e/m² · {(capPerSf * 1000).toFixed(2)} kg CO2e/sqft
+          {formatIntensityPerM2(capIntensityPerM2)} tCO2e/m² · {formatIntensityPerSqft(capPerSf)} tCO2e/sqft
         </div>
       </div>
 
