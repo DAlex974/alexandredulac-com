@@ -9,12 +9,17 @@ import {
   emissionsForFuel,
   computeCompliance,
   ComplianceResult,
+  sqftToM2,
+  m2ToSqft,
+  M2_PER_SQFT,
 } from "./constants";
 
 const FUEL_ORDER: FuelKey[] = ["electricity", "natural_gas", "district_steam", "fuel_oil_2"];
+type AreaUnit = "sqft" | "m2";
 
 interface FormState {
-  squareFootage: string;
+  area: string;
+  areaUnit: AreaUnit;
   quantities: Record<FuelKey, string>;
 }
 
@@ -38,6 +43,14 @@ function formatTonnes(n: number): string {
   });
 }
 
+function formatKg(n: number): string {
+  return n.toLocaleString("en-US", { maximumFractionDigits: 1 });
+}
+
+function formatArea(n: number): string {
+  return n.toLocaleString("en-US", { maximumFractionDigits: 0 });
+}
+
 function formatUsd(n: number): string {
   return n.toLocaleString("en-US", {
     style: "currency",
@@ -49,7 +62,8 @@ function formatUsd(n: number): string {
 export default function LL97Client() {
   const [scrolled, setScrolled] = useState(false);
   const [form, setForm] = useState<FormState>({
-    squareFootage: "",
+    area: "",
+    areaUnit: "sqft",
     quantities: {
       electricity: "",
       natural_gas: "",
@@ -65,7 +79,11 @@ export default function LL97Client() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const sqft = parseNumber(form.squareFootage);
+  const areaInput = parseNumber(form.area);
+  // Normalise to sqft for the internal calculation.
+  const sqft = form.areaUnit === "sqft" ? areaInput : m2ToSqft(areaInput);
+  const m2 = form.areaUnit === "m2" ? areaInput : sqftToM2(areaInput);
+
   const hasAnyFuel = FUEL_ORDER.some((f) => parseNumber(form.quantities[f]) > 0);
   const canCompute = sqft > 0 && hasAnyFuel;
 
@@ -154,25 +172,57 @@ export default function LL97Client() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <label className="block">
-              <div className="mono text-[10px] tracking-[0.25em] uppercase text-navy/60 mb-2">
-                Gross square footage
+            <div>
+              <div className="flex items-baseline justify-between mb-2">
+                <div className="mono text-[10px] tracking-[0.25em] uppercase text-navy/60">
+                  Gross floor area
+                </div>
+                <div className="mono text-[10px] tracking-[0.2em] uppercase flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setForm({ ...form, areaUnit: "sqft" });
+                      setSubmitted(false);
+                    }}
+                    className={`transition ${
+                      form.areaUnit === "sqft" ? "text-navy border-b border-navy" : "text-navy/40 hover:text-navy/70"
+                    }`}
+                  >
+                    sqft
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setForm({ ...form, areaUnit: "m2" });
+                      setSubmitted(false);
+                    }}
+                    className={`transition ${
+                      form.areaUnit === "m2" ? "text-navy border-b border-navy" : "text-navy/40 hover:text-navy/70"
+                    }`}
+                  >
+                    m²
+                  </button>
+                </div>
               </div>
               <input
                 type="text"
                 inputMode="numeric"
-                value={form.squareFootage}
+                value={form.area}
                 onChange={(e) => {
-                  setForm({ ...form, squareFootage: e.target.value });
+                  setForm({ ...form, area: e.target.value });
                   setSubmitted(false);
                 }}
-                placeholder="e.g. 120,000"
+                placeholder={form.areaUnit === "sqft" ? "e.g. 120,000" : "e.g. 11,150"}
                 className="w-full bg-transparent border-b border-navy/30 pb-2 text-2xl md:text-3xl font-light tracking-tight focus:outline-none focus:border-navy transition-colors"
               />
-              <div className="mono text-[10px] tracking-[0.2em] uppercase text-navy/50 mt-2">
-                sq ft
-              </div>
-            </label>
+              {areaInput > 0 && (
+                <div className="mono text-[10px] tracking-[0.2em] uppercase text-navy/50 mt-2">
+                  {form.areaUnit === "sqft"
+                    ? `≈ ${formatArea(m2)} m²`
+                    : `≈ ${formatArea(sqft)} sqft`}
+                </div>
+              )}
+            </div>
 
             <div>
               <div className="mono text-[10px] tracking-[0.25em] uppercase text-navy/60 mb-2">
@@ -190,9 +240,12 @@ export default function LL97Client() {
           <div className="mono text-xs tracking-[0.25em] uppercase text-navy/60 mb-6">
             § 02 · Annual energy consumption
           </div>
-          <p className="text-base text-navy/75 leading-relaxed mb-10 max-w-2xl">
-            Enter last calendar year&apos;s consumption for each source your
-            building uses. Leave blank or 0 for sources you don&apos;t use.
+          <p className="text-base text-navy/75 leading-relaxed mb-4 max-w-2xl">
+            Enter last calendar year&apos;s consumption in <strong>kWh</strong> for each
+            source your building uses. Leave blank or 0 for sources you don&apos;t use.
+          </p>
+          <p className="text-sm text-navy/60 leading-relaxed mb-10 max-w-2xl italic">
+            Conversion hints: 1 therm ≈ 29.3 kWh · 1 CCF ≈ 30.4 kWh · 1 gallon of fuel oil #2 ≈ 40.6 kWh · 1 Mlb of steam ≈ 350 kWh.
           </p>
 
           <div className="grid md:grid-cols-2 gap-8 mb-16">
@@ -221,7 +274,7 @@ export default function LL97Client() {
                     className="w-full bg-transparent border-b border-navy/30 pb-2 text-2xl md:text-3xl font-light tracking-tight focus:outline-none focus:border-navy transition-colors"
                   />
                   <div className="mono text-[10px] tracking-[0.2em] uppercase text-navy/50 mt-2">
-                    {spec.inputUnit}
+                    kWh / year
                   </div>
                   <div className="text-sm text-navy/60 mt-2 leading-relaxed">
                     {spec.inputHelp}
@@ -242,7 +295,7 @@ export default function LL97Client() {
           </button>
           {!canCompute && (
             <div className="mt-4 mono text-[10px] tracking-[0.2em] uppercase text-navy/50">
-              Enter square footage and at least one energy source to compute.
+              Enter floor area and at least one energy source to compute.
             </div>
           )}
         </div>
@@ -255,11 +308,15 @@ export default function LL97Client() {
             <div className="mono text-xs tracking-[0.25em] uppercase text-ivory/60 mb-6">
               § 03 · Result
             </div>
-            <h2 className="text-4xl md:text-5xl font-light leading-tight tracking-tight mb-12">
+            <h2 className="text-4xl md:text-5xl font-light leading-tight tracking-tight mb-6">
               Where you stand
               <br />
               <span className="italic">against the caps.</span>
             </h2>
+
+            <div className="mono text-xs tracking-[0.2em] uppercase text-ivory/60 mb-12">
+              {formatArea(sqft)} sqft · {formatArea(m2)} m² · Group B
+            </div>
 
             <div className="grid md:grid-cols-2 gap-px bg-ivory/15 mb-12">
               <PeriodBlock
@@ -268,6 +325,7 @@ export default function LL97Client() {
                 result={results.result_2029}
                 capPerSf={groupB.limit_2024_2029}
                 sqft={sqft}
+                m2={m2}
               />
               <PeriodBlock
                 label="2030 — 2034"
@@ -275,6 +333,7 @@ export default function LL97Client() {
                 result={results.result_2030}
                 capPerSf={groupB.limit_2030_2034}
                 sqft={sqft}
+                m2={m2}
               />
             </div>
 
@@ -362,8 +421,8 @@ export default function LL97Client() {
             </p>
             <p className="mono text-[10px] tracking-[0.2em] uppercase text-navy/50 pt-4">
               Sources: NYC Admin Code §28-320.3.1 &amp; §28-320.3.2 (occupancy
-              caps) · NYC DOB Rule §103-14 Appendix (fuel coefficients) ·
-              §28-320.6 ($268/tCO2e penalty).
+              caps) · NYC DOB Rule §103-14 Appendix (fuel coefficients, converted
+              per kWh) · §28-320.6 ($268/tCO2e penalty).
             </p>
           </div>
         </div>
@@ -388,14 +447,20 @@ function PeriodBlock({
   result,
   capPerSf,
   sqft,
+  m2,
 }: {
   label: string;
   emissions: number;
   result: ComplianceResult;
   capPerSf: number;
   sqft: number;
+  m2: number;
 }) {
   const Icon = result.compliant ? CheckCircle2 : AlertTriangle;
+  const intensityPerSqft = sqft > 0 ? (emissions * 1000) / sqft : 0; // kg CO2e / sqft
+  const intensityPerM2 = m2 > 0 ? (emissions * 1000) / m2 : 0; // kg CO2e / m²
+  const capIntensityPerM2 = (capPerSf * 1000) / M2_PER_SQFT; // kg CO2e / m²
+
   return (
     <div className="bg-navy p-8 md:p-10">
       <div className="mono text-[10px] tracking-[0.25em] uppercase text-ivory/60 mb-6">
@@ -410,6 +475,9 @@ function PeriodBlock({
           {formatTonnes(emissions)}
           <span className="text-lg md:text-xl text-ivory/60 ml-2">tCO2e/yr</span>
         </div>
+        <div className="mono text-[10px] tracking-[0.2em] uppercase text-ivory/50 mt-2">
+          {formatKg(intensityPerM2)} kg CO2e / m² · {formatKg(intensityPerSqft)} kg CO2e / sqft
+        </div>
       </div>
 
       <div className="mb-6">
@@ -421,7 +489,7 @@ function PeriodBlock({
           <span className="text-sm text-ivory/60 ml-2">tCO2e/yr</span>
         </div>
         <div className="mono text-[10px] tracking-[0.2em] uppercase text-ivory/40 mt-1">
-          {capPerSf.toFixed(5)} × {sqft.toLocaleString("en-US")} sf
+          {formatKg(capIntensityPerM2)} kg CO2e/m² · {(capPerSf * 1000).toFixed(2)} kg CO2e/sqft
         </div>
       </div>
 
@@ -456,3 +524,4 @@ function PeriodBlock({
     </div>
   );
 }
+

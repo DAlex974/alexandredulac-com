@@ -3,20 +3,31 @@
  *
  * Sources:
  * - Occupancy emission limits: NYC Administrative Code §28-320.3.1 (2024–2029)
- *   and §28-320.3.2 (2030–2034).
+ *   and §28-320.3.2 (2030–2034). Values are tCO2e per square foot per year.
  * - Fuel emission coefficients: NYC DOB Rule §103-14, Appendix (2022, amended).
+ *   DOB publishes these per kBtu; we convert to per kWh once here so all fuel
+ *   inputs can be entered directly in kWh (1 kWh = 3.412 kBtu).
  * - Excess emissions penalty: NYC Administrative Code §28-320.6 —
  *   $268 per metric ton CO2e per year of excess.
  * - Electricity 2030+ coefficient: projected ConEd/NYISO grid decarbonization
- *   used by DOB in guidance; subject to future DOB updates.
+ *   used in DOB guidance; subject to future DOB updates.
+ *
+ * Unit conventions:
+ * - All emission coefficients stored as tCO2e/kWh.
+ * - Occupancy caps stored as tCO2e/sqft. sqft ↔ m² conversion is a
+ *   presentation concern handled in the UI (1 sqft = 0.092903 m²).
  */
 
 export type Period = "2024-2029" | "2030-2034";
 
 export const FINE_PER_TON_USD = 268;
 
+// Unit conversions
+export const KBTU_PER_KWH = 3.412;
+export const SQFT_PER_M2 = 10.7639; // 1 m² = 10.7639 sqft
+export const M2_PER_SQFT = 0.092903;
+
 // tCO2e per square foot per year, by occupancy classification.
-// Full table stored for future expansion; UI currently exposes Business only.
 export const OCCUPANCY_LIMITS: Record<
   string,
   { label: string; limit_2024_2029: number; limit_2030_2034: number }
@@ -82,94 +93,78 @@ export const OCCUPANCY_LIMITS: Record<
   U: { label: "Utility", limit_2024_2029: 0.00426, limit_2030_2034: 0.0011 },
 };
 
-// Emission coefficients in tCO2e per unit; unit varies by fuel.
-// Values are period-dependent for electricity (grid decarbonization).
 export type FuelKey =
   | "electricity"
   | "natural_gas"
   | "district_steam"
   | "fuel_oil_2";
 
+// All coefficients pre-converted to tCO2e/kWh so input is always kWh.
+// Comments preserve the original DOB Rule §103-14 values for traceability.
 export const FUELS: Record<
   FuelKey,
   {
     label: string;
-    inputUnit: string;
     inputHelp: string;
-    // Converts one input unit to tCO2e for the given period.
     coefficient: Record<Period, number>;
-    coefficientUnit: string;
-    // Factor to convert one input unit to kBtu (for fuels priced in kBtu).
-    // For electricity we bypass kBtu and apply coefficient directly to kWh.
-    unitToKBtu?: number;
     coefficientSource: string;
   }
 > = {
   electricity: {
     label: "Electricity",
-    inputUnit: "kWh / year",
-    inputHelp: "From ConEd or your submeter — annual grid electricity.",
-    // tCO2e per kWh
+    inputHelp: "Annual grid electricity from your utility bill or submeter.",
+    // Native DOB unit: tCO2e/kWh (no conversion).
     coefficient: {
       "2024-2029": 0.000288962,
       "2030-2034": 0.000145,
     },
-    coefficientUnit: "tCO2e/kWh",
     coefficientSource:
-      "DOB Rule §103-14 Appendix (2024–2029); DOB projected grid decarbonization (2030+).",
+      "DOB Rule §103-14 Appendix (2024–2029: 0.000288962 tCO2e/kWh); DOB projected grid decarbonization (2030+: 0.000145 tCO2e/kWh).",
   },
   natural_gas: {
     label: "Natural gas",
-    inputUnit: "therms / year",
-    inputHelp: "1 therm = 100 kBtu (standard ConEd gas bill unit).",
-    // tCO2e per kBtu
+    inputHelp:
+      "Energy content in kWh. If your bill is in therms: 1 therm ≈ 29.3 kWh. If in CCF: 1 CCF ≈ 30.4 kWh.",
+    // DOB: 0.00005311 tCO2e/kBtu × 3.412 kBtu/kWh = 0.0001812 tCO2e/kWh
     coefficient: {
-      "2024-2029": 0.00005311,
-      "2030-2034": 0.00005311,
+      "2024-2029": 0.0001812,
+      "2030-2034": 0.0001812,
     },
-    coefficientUnit: "tCO2e/kBtu",
-    unitToKBtu: 100,
-    coefficientSource: "DOB Rule §103-14 Appendix.",
+    coefficientSource:
+      "DOB Rule §103-14 Appendix — 0.00005311 tCO2e/kBtu × 3.412 kBtu/kWh = 0.0001812 tCO2e/kWh.",
   },
   district_steam: {
     label: "District steam",
-    inputUnit: "Mlb / year",
     inputHelp:
-      "Thousands of pounds — standard ConEd steam bill unit. 1 Mlb ≈ 1,194 kBtu.",
+      "Energy content in kWh. If your bill is in Mlb (thousand pounds): 1 Mlb ≈ 350 kWh.",
+    // DOB: 0.00006661 tCO2e/kBtu × 3.412 kBtu/kWh = 0.0002273 tCO2e/kWh
     coefficient: {
-      "2024-2029": 0.00006661,
-      "2030-2034": 0.00006661,
+      "2024-2029": 0.0002273,
+      "2030-2034": 0.0002273,
     },
-    coefficientUnit: "tCO2e/kBtu",
-    unitToKBtu: 1194,
-    coefficientSource: "DOB Rule §103-14 Appendix.",
+    coefficientSource:
+      "DOB Rule §103-14 Appendix — 0.00006661 tCO2e/kBtu × 3.412 kBtu/kWh = 0.0002273 tCO2e/kWh.",
   },
   fuel_oil_2: {
     label: "Fuel oil #2",
-    inputUnit: "gallons / year",
-    inputHelp: "Heating oil #2. 1 gallon ≈ 138.5 kBtu.",
+    inputHelp:
+      "Energy content in kWh. If your bill is in gallons: 1 gallon ≈ 40.6 kWh.",
+    // DOB: 0.00007421 tCO2e/kBtu × 3.412 kBtu/kWh = 0.0002532 tCO2e/kWh
     coefficient: {
-      "2024-2029": 0.00007421,
-      "2030-2034": 0.00007421,
+      "2024-2029": 0.0002532,
+      "2030-2034": 0.0002532,
     },
-    coefficientUnit: "tCO2e/kBtu",
-    unitToKBtu: 138.5,
-    coefficientSource: "DOB Rule §103-14 Appendix (distillate #2).",
+    coefficientSource:
+      "DOB Rule §103-14 Appendix — 0.00007421 tCO2e/kBtu × 3.412 kBtu/kWh = 0.0002532 tCO2e/kWh.",
   },
 };
 
 export function emissionsForFuel(
   fuel: FuelKey,
-  quantity: number,
+  quantityKWh: number,
   period: Period,
 ): number {
-  const spec = FUELS[fuel];
-  const coeff = spec.coefficient[period];
-  if (fuel === "electricity") {
-    return quantity * coeff;
-  }
-  const kBtu = quantity * (spec.unitToKBtu ?? 1);
-  return kBtu * coeff;
+  return quantityKWh * FUELS[fuel].coefficient[period];
 }
 
 export interface ComplianceResult {
@@ -200,4 +195,12 @@ export function computeCompliance(
     compliant: excess === 0,
     annualFineUsd: excess * FINE_PER_TON_USD,
   };
+}
+
+export function sqftToM2(sqft: number): number {
+  return sqft * M2_PER_SQFT;
+}
+
+export function m2ToSqft(m2: number): number {
+  return m2 * SQFT_PER_M2;
 }
