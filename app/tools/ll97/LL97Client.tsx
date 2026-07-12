@@ -250,7 +250,7 @@ export default function LL97Client() {
             source your building uses. Leave blank or 0 for sources you don&apos;t use.
           </p>
           <p className="text-sm text-navy/60 leading-relaxed mb-10 max-w-2xl italic">
-            Conversion hints: 1 therm ≈ 29.3 kWh · 1 CCF ≈ 30.4 kWh · 1 gallon of fuel oil #2 ≈ 40.6 kWh · 1 Mlb of steam ≈ 350 kWh.
+            Conversion hints: 1 therm ≈ 29.31 kWh · 1 CCF ≈ 30.4 kWh · 1 gallon of fuel oil #2 ≈ 40.6 kWh · 1 Mlb of steam ≈ 350 kWh.
           </p>
 
           <div className="grid md:grid-cols-2 gap-8 mb-16">
