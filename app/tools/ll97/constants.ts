@@ -124,7 +124,7 @@ export const FUELS: Record<
   natural_gas: {
     label: "Natural gas",
     inputHelp:
-      "Energy content in kWh. If your bill is in therms: 1 therm ≈ 29.3 kWh. If in CCF: 1 CCF ≈ 30.4 kWh.",
+      "Energy content in kWh. If your bill is in therms: 1 therm ≈ 29.31 kWh. If in CCF: 1 CCF ≈ 30.4 kWh.",
     // DOB: 0.00005311 tCO2e/kBtu × 3.412 kBtu/kWh = 0.0001812 tCO2e/kWh
     coefficient: {
       "2024-2029": 0.0001812,
