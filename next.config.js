@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // calc-core ships TypeScript source; Next compiles it in place.
+  transpilePackages: ["@papilio/calc-core"],
   async redirects() {
     return [
       {

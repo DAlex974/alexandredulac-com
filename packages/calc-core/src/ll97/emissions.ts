@@ -9,9 +9,9 @@
  * zero-emission source (spec §2.7, golden G6).
  */
 
-import type { Basis, Period, Result } from "../result.js";
-import { COEFFICIENTS, hashRulesets, sourceRefOf, type CoefficientsRuleset } from "../rulesets/index.js";
-import { toKBtu, toKWh, type EnergyUnit } from "../units/convert.js";
+import type { Basis, Period, Result } from "../result";
+import { COEFFICIENTS, hashRulesets, sourceRefOf, type CoefficientsRuleset } from "../rulesets/index";
+import { toKBtu, toKWh, type EnergyUnit } from "../units/convert";
 
 export type Consumption = {
   /** Key into the coefficients ruleset `sources`, e.g. "electricity", "natural_gas". */

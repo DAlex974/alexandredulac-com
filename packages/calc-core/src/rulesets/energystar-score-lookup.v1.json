@@ -1,0 +1,17 @@
+{
+  "ruleset": "energystar-score-lookup",
+  "version": "1.0.0",
+  "source": "EPA ENERGY STAR Score Technical Reference, per property type — score lookup table (energy efficiency ratio → 1–100 score)",
+  "sourceUrl": "https://www.energystar.gov/buildings/benchmark/understand_metrics/how_score_calculated",
+  "sourceSha256": "",
+  "retrievedAt": "2026-09-05",
+  "effectiveFrom": "2020-01-01",
+  "appliesToFilingYears": [2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030],
+  "status": "pending",
+  "notes": [
+    "PENDING TRANSCRIPTION. No property type is available yet; `gapToGrade` returns `euiReduction: null` with a reason until a table is added.",
+    "To add a property type: transcribe the 100-row lookup table from the EPA technical reference for that type (Multifamily Housing first per decision c, then Office), record the EPA model version, and add a golden test that pins at least three score↔ratio pairs from the published table.",
+    "The ratio is actual ÷ predicted source EUI. Because the predicted EUI depends only on the building's operating characteristics, the source-EUI reduction needed to move from score s1 to s2 is 1 − ratio(s2) ÷ ratio(s1)."
+  ],
+  "tables": {}
+}

@@ -8,7 +8,7 @@
  * (spec §2.2): CY2024/25 may use either basis; CY2026+ is ESPM only.
  */
 
-import type { Basis, Period, Result } from "../result.js";
+import type { Basis, Period, Result } from "../result";
 import {
   ESPM_LIMITS,
   OCCUPANCY_LIMITS,
@@ -16,7 +16,7 @@ import {
   hashRulesets,
   sourceRefOf,
   type LimitsRuleset,
-} from "../rulesets/index.js";
+} from "../rulesets/index";
 
 export type Space = {
   /** Key into the chosen ruleset's `factors`. */

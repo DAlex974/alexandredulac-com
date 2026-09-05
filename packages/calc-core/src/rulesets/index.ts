@@ -8,14 +8,15 @@
  */
 
 import { createHash } from "node:crypto";
-import type { Period, SourceRef } from "../result.js";
+import type { Period, SourceRef } from "../result";
 
-import occupancyLimitsJson from "./ll97-occupancy-limits.v1.json" with { type: "json" };
-import espmLimitsJson from "./ll97-espm-limits.v1.json" with { type: "json" };
-import coefficientsJson from "./ll97-coefficients.v1.json" with { type: "json" };
-import ll33ThresholdsJson from "./ll33-grade-thresholds.v1.json" with { type: "json" };
+import occupancyLimitsJson from "./ll97-occupancy-limits.v1.json";
+import espmLimitsJson from "./ll97-espm-limits.v1.json";
+import coefficientsJson from "./ll97-coefficients.v1.json";
+import ll33ThresholdsJson from "./ll33-grade-thresholds.v1.json";
+import scoreLookupJson from "./energystar-score-lookup.v1.json";
 
-type RulesetMeta = {
+export type RulesetMeta = {
   ruleset: string;
   version: string;
   source: string;
@@ -24,7 +25,7 @@ type RulesetMeta = {
   retrievedAt: string;
   effectiveFrom: string;
   appliesToFilingYears: number[];
-  status: "complete" | "partial";
+  status: "complete" | "partial" | "pending";
   notes?: string[];
 };
 
@@ -50,10 +51,26 @@ export type LL33ThresholdsRuleset = RulesetMeta & {
   minScoreFor: { A: number; B: number; C: number };
 };
 
+/**
+ * EPA ENERGY STAR score lookup, per property type: the energy-efficiency
+ * ratio (actual ÷ predicted source EUI) that corresponds to each 1–100
+ * score. `ratioAtScore[i]` is the ratio for score i+1; it decreases as
+ * the score rises.
+ */
+export type ScoreLookupTable = {
+  modelVersion: string;
+  ratioAtScore: number[];
+};
+
+export type ScoreLookupRuleset = RulesetMeta & {
+  tables: Record<string, ScoreLookupTable>;
+};
+
 export const OCCUPANCY_LIMITS: LimitsRuleset = occupancyLimitsJson as LimitsRuleset;
 export const ESPM_LIMITS: LimitsRuleset = espmLimitsJson as LimitsRuleset;
 export const COEFFICIENTS: CoefficientsRuleset = coefficientsJson as CoefficientsRuleset;
 export const LL33_THRESHOLDS: LL33ThresholdsRuleset = ll33ThresholdsJson as LL33ThresholdsRuleset;
+export const SCORE_LOOKUP: ScoreLookupRuleset = scoreLookupJson as ScoreLookupRuleset;
 
 export function sourceRefOf(r: RulesetMeta): SourceRef {
   return {

@@ -7,7 +7,11 @@
  * replayed later on exactly the same data.
  */
 
-export type Basis = "espm" | "occupancy";
+/**
+ * "espm" / "occupancy" — the two LL97 limit bases.
+ * "statutory" — values read straight from statute (LL33 grade thresholds).
+ */
+export type Basis = "espm" | "occupancy" | "statutory";
 
 export type Period = "2024-2029" | "2030-2034";
 
@@ -30,6 +34,7 @@ export type Result<T> = {
   /** Human-readable description of the method, e.g. "ESPM property type, area-weighted". */
   method: string;
   basis: Basis;
+  /** LL97: the calendar year being filed. LL33: the benchmarking report year. */
   filingYear: number;
   /** Rendered into the Method block of every tool page — never hand-written per page. */
   sources: SourceRef[];

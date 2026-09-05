@@ -20,7 +20,7 @@ import {
   toKBtu,
   toKWh,
   type LimitsRuleset,
-} from "../index.js";
+} from "../index";
 
 const AT = "2026-09-05T00:00:00.000Z";
 
