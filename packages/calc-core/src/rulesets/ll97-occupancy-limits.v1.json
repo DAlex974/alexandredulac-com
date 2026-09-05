@@ -1,0 +1,33 @@
+{
+  "ruleset": "ll97-occupancy-limits",
+  "version": "1.0.0",
+  "source": "NYC Administrative Code §28-320.3.1 (2024–2029) and §28-320.3.2 (2030–2034)",
+  "sourceUrl": "https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-125346",
+  "sourceSha256": "",
+  "retrievedAt": "2026-09-04",
+  "effectiveFrom": "2024-01-01",
+  "appliesToFilingYears": [2024, 2025],
+  "units": "tCO2e/sf/yr",
+  "status": "complete",
+  "notes": [
+    "Statutory occupancy-group basis. Permitted for CY2024 and CY2025 filings only; CY2026 and later must use the ESPM property-type basis (1 RCNY §103-14).",
+    "Values transcribed from the owner-supplied DOB table on 2026-09-04. sourceSha256 to be filled by `pnpm audit:rulesets` once the canonical PDF is pinned."
+  ],
+  "factors": {
+    "Group A (Assembly)":            { "2024-2029": 0.01074, "2030-2034": 0.00420 },
+    "Group B (Business)":            { "2024-2029": 0.00846, "2030-2034": 0.00453 },
+    "Group B (Healthcare)":          { "2024-2029": 0.02381, "2030-2034": 0.01193 },
+    "Group E (Education)":           { "2024-2029": 0.00758, "2030-2034": 0.00344 },
+    "Group F (Factory / Industrial)":{ "2024-2029": 0.00574, "2030-2034": 0.00167 },
+    "Group H (High Hazard)":         { "2024-2029": 0.02381, "2030-2034": 0.01193 },
+    "Group I-1 (Institutional)":     { "2024-2029": 0.01138, "2030-2034": 0.00598 },
+    "Group I-2 (Institutional)":     { "2024-2029": 0.02381, "2030-2034": 0.01193 },
+    "Group I-3 (Institutional)":     { "2024-2029": 0.02381, "2030-2034": 0.01193 },
+    "Group I-4 (Institutional)":     { "2024-2029": 0.00758, "2030-2034": 0.00344 },
+    "Group M (Mercantile)":          { "2024-2029": 0.01181, "2030-2034": 0.00403 },
+    "Group R-1 (Residential)":       { "2024-2029": 0.00987, "2030-2034": 0.00526 },
+    "Group R-2 (Residential)":       { "2024-2029": 0.00675, "2030-2034": 0.00407 },
+    "Group S (Storage)":             { "2024-2029": 0.00426, "2030-2034": 0.00110 },
+    "Group U (Utility)":             { "2024-2029": 0.00426, "2030-2034": 0.00110 }
+  }
+}

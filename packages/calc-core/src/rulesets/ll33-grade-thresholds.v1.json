@@ -1,0 +1,15 @@
+{
+  "ruleset": "ll33-grade-thresholds",
+  "version": "1.0.0",
+  "source": "NYC Administrative Code §28-309.12, as amended by Local Law 95 of 2019",
+  "sourceUrl": "https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-125346",
+  "sourceSha256": "",
+  "retrievedAt": "2026-09-04",
+  "effectiveFrom": "2020-01-01",
+  "appliesToFilingYears": [2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030],
+  "status": "complete",
+  "notes": [
+    "Grades are assigned by DOB from the ENERGY STAR score. A: score ≥ 85; B: 70–84; C: 55–69; D: < 55; F: required benchmarking not submitted; N: exempt or not covered by ENERGY STAR."
+  ],
+  "minScoreFor": { "A": 85, "B": 70, "C": 55 }
+}

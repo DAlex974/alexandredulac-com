@@ -1,0 +1,21 @@
+{
+  "ruleset": "ll97-espm-limits",
+  "version": "1.0.0",
+  "source": "1 RCNY §103-14(c)(3)",
+  "sourceUrl": "https://www.nyc.gov/site/buildings/codes/rules.page",
+  "sourceSha256": "",
+  "retrievedAt": "2026-09-04",
+  "effectiveFrom": "2024-01-01",
+  "appliesToFilingYears": [2024, 2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034],
+  "units": "tCO2e/sf/yr",
+  "status": "partial",
+  "excludedPropertyTypes": ["Other", "Mixed Use"],
+  "notes": [
+    "PARTIAL TRANSCRIPTION. Only the property types listed under `factors` are available; `resolveLimit` refuses any other ESPM type until the full ~60-row table is transcribed from the current consolidated text of 1 RCNY §103-14 (spec §7).",
+    "Multifamily Housing values taken from spec Rev 1 §0 (0.00675 for 2024–2029; 0.00334664 for 2030–2034). Verify against the rule text before the LL97 v2 release.",
+    "`Other` and `Mixed Use` are excluded by rule — verify the exclusion list against §103-14."
+  ],
+  "factors": {
+    "Multifamily Housing": { "2024-2029": 0.00675, "2030-2034": 0.00334664 }
+  }
+}
