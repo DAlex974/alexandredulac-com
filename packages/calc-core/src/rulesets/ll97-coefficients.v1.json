@@ -1,0 +1,40 @@
+{
+  "ruleset": "ll97-coefficients",
+  "version": "1.0.0",
+  "source": "1 RCNY §103-14, Appendix — greenhouse gas coefficients of energy consumption",
+  "sourceUrl": "https://www.nyc.gov/site/buildings/codes/rules.page",
+  "sourceSha256": "",
+  "retrievedAt": "2026-09-04",
+  "effectiveFrom": "2024-01-01",
+  "appliesToFilingYears": [2024, 2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034],
+  "status": "partial",
+  "notes": [
+    "Electricity coefficient is per kWh and period-dependent. The 2030–2034 value reflects DOB's projected ConEd/NYISO grid decarbonization and is subject to DOB revision — verify before the LL97 v2 release.",
+    "All other coefficients are per kBtu, identical across periods unless DOB amends them.",
+    "Building fuels carried from the live v1 tool: electricity, natural_gas, district_steam, fuel_oil_2. Remaining rows transcribed from the owner-supplied DOB appendix list on 2026-09-05.",
+    "PENDING (not in this file, must be transcribed before v2): fuel_oil_4, fuel_oil_5, fuel_oil_6, district_chilled_water."
+  ],
+  "sources": {
+    "electricity":     { "label": "Utility electricity",        "per": "kWh",  "coefficient": { "2024-2029": 0.000288962, "2030-2034": 0.000145 } },
+    "natural_gas":     { "label": "Natural gas",                "per": "kBtu", "coefficient": { "2024-2029": 0.00005311,  "2030-2034": 0.00005311 } },
+    "district_steam":  { "label": "District steam",             "per": "kBtu", "coefficient": { "2024-2029": 0.00006661,  "2030-2034": 0.00006661 } },
+    "fuel_oil_2":      { "label": "Fuel oil #2 (distillate)",   "per": "kBtu", "coefficient": { "2024-2029": 0.00007421,  "2030-2034": 0.00007421 } },
+    "fuel_oil_1":      { "label": "Distillate fuel oil No. 1",  "per": "kBtu", "coefficient": { "2024-2029": 0.00007350,  "2030-2034": 0.00007350 } },
+    "diesel":          { "label": "Diesel",                     "per": "kBtu", "coefficient": { "2024-2029": 0.00007421,  "2030-2034": 0.00007421 } },
+    "kerosene":        { "label": "Kerosene",                   "per": "kBtu", "coefficient": { "2024-2029": 0.00007769,  "2030-2034": 0.00007769 } },
+    "propane":         { "label": "Propane",                    "per": "kBtu", "coefficient": { "2024-2029": 0.00006425,  "2030-2034": 0.00006425 } },
+    "butane":          { "label": "Butane",                     "per": "kBtu", "coefficient": { "2024-2029": 0.00006502,  "2030-2034": 0.00006502 } },
+    "gasoline":        { "label": "Gasoline",                   "per": "kBtu", "coefficient": { "2024-2029": 0.00007047,  "2030-2034": 0.00007047 } },
+    "ethane":          { "label": "Ethane",                     "per": "kBtu", "coefficient": { "2024-2029": 0.00005985,  "2030-2034": 0.00005985 } },
+    "ethylene":        { "label": "Ethylene",                   "per": "kBtu", "coefficient": { "2024-2029": 0.00006621,  "2030-2034": 0.00006621 } },
+    "butylene":        { "label": "Butylene",                   "per": "kBtu", "coefficient": { "2024-2029": 0.00006897,  "2030-2034": 0.00006897 } },
+    "isobutane":       { "label": "Isobutane",                  "per": "kBtu", "coefficient": { "2024-2029": 0.00006519,  "2030-2034": 0.00006519 } },
+    "isobutylene":     { "label": "Isobutylene",                "per": "kBtu", "coefficient": { "2024-2029": 0.00006911,  "2030-2034": 0.00006911 } },
+    "propylene":       { "label": "Propylene",                  "per": "kBtu", "coefficient": { "2024-2029": 0.00006802,  "2030-2034": 0.00006802 } },
+    "pentanes_plus":   { "label": "Pentanes plus",              "per": "kBtu", "coefficient": { "2024-2029": 0.00007027,  "2030-2034": 0.00007027 } },
+    "naphtha_lt_401f": { "label": "Naphtha (< 401 °F)",         "per": "kBtu", "coefficient": { "2024-2029": 0.00006827,  "2030-2034": 0.00006827 } },
+    "other_oil_gt_401f": { "label": "Other oil (> 401 °F)",     "per": "kBtu", "coefficient": { "2024-2029": 0.00007647,  "2030-2034": 0.00007647 } },
+    "special_naphtha": { "label": "Special naphtha",            "per": "kBtu", "coefficient": { "2024-2029": 0.00007259,  "2030-2034": 0.00007259 } },
+    "coke_oven_gas":   { "label": "Coke oven gas",              "per": "kBtu", "coefficient": { "2024-2029": 0.00004689,  "2030-2034": 0.00004689 } }
+  }
+}
