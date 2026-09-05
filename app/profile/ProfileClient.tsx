@@ -35,6 +35,10 @@ const engagements = [
 ];
 
 const credentials = [
+  // TODO: once CEM results come back (October 2026), simplify the label to:
+  // "CEM (Certified Energy Manager) · Association of Energy Engineers"
+  // and change period to the year the credential was awarded.
+  { period: "2026 →", label: "CEM (Certified Energy Manager) · Association of Energy Engineers — sat September 2026, Boston · results expected October 2026" },
   { period: "2026 →", label: "BREEAM In-Use Practitioner · BRE Group (completing late 2026)" },
   { period: "2020 →", label: "Court-Appointed Expert Witness · French Court of Appeals" },
   { period: "Active", label: "SS3 Asbestos Technical Supervisor · High-risk asbestos abatement supervision" },
