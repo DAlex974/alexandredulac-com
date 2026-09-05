@@ -52,7 +52,7 @@ const ventures = [
 
 const rare = [
   "An operator who ran a mandatory energy-audit business under France's Décret Tertiaire — a building emissions mandate a decade ahead of LL97 — now operating on the New York side of the same regulatory curve.",
-  "A founder, not a consultant — I've built the firms, the software, and the methodology, not just slide decks.",
+  "Founder of the firms, the software, and the methodology behind this practice. The advice comes from having run them.",
   "Court-Appointed Expert at the French Court of Appeals since 2020.",
   "A transatlantic profile: French operational depth, US legal and financial footing already in place (green card, active US entity).",
   "Technical work recently assessed at the top of expectations by a leading European ESG data platform (2026).",
@@ -174,8 +174,8 @@ export default function Page() {
             </div>
             <div className="md:col-span-7 md:col-start-6 text-base md:text-lg text-navy/75 leading-relaxed pt-2">
               Each mode is scoped to a specific decision a principal is making —
-              an acquisition, a regulatory deadline, a product roadmap. No
-              retainers, no slide decks for the sake of slide decks.
+              an acquisition, a regulatory deadline, a product roadmap. Scope,
+              timeline, and deliverable are set against that decision.
             </div>
           </div>
 
@@ -258,21 +258,20 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Why this profile is rare */}
+      {/* What the advice is built on */}
       <section className="py-24 md:py-32 px-6 md:px-12 bg-navy text-ivory">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-12 gap-12 mb-16">
             <div className="md:col-span-4">
-              <div className="mono text-xs tracking-[0.25em] uppercase text-ivory/60 mb-4">§ 03 · Differentiation</div>
+              <div className="mono text-xs tracking-[0.25em] uppercase text-ivory/60 mb-4">§ 03 · Vantage point</div>
               <h2 className="text-4xl md:text-5xl font-light leading-tight tracking-tight">
-                Why this profile
+                What the advice
                 <br />
-                <span className="italic">is rare.</span>
+                <span className="italic">is built on.</span>
               </h2>
             </div>
             <div className="md:col-span-7 md:col-start-6 text-base md:text-lg leading-relaxed text-ivory/80 pt-2">
-              Most advisors in this space have either operating depth or US
-              market footing. This one has both.
+              The record behind the three engagement modes above.
             </div>
           </div>
 
