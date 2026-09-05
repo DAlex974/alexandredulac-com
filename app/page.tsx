@@ -51,10 +51,11 @@ const ventures = [
 ];
 
 const rare = [
-  "An operator who has run a mandatory energy-audit business inside a mature regulatory regime (France), now bringing that perspective to New York as Local Law 97 reshapes the market.",
+  "An operator who ran a mandatory energy-audit business under France's Décret Tertiaire — a building emissions mandate a decade ahead of LL97 — now operating on the New York side of the same regulatory curve.",
   "A founder, not a consultant — I've built the firms, the software, and the methodology, not just slide decks.",
   "Court-Appointed Expert at the French Court of Appeals since 2020.",
   "A transatlantic profile: French operational depth, US legal and financial footing already in place (green card, active US entity).",
+  "Technical work recently assessed at the top of expectations by a leading European ESG data platform (2026).",
 ];
 
 export default function Page() {
@@ -277,7 +278,12 @@ export default function Page() {
 
           <div className="grid md:grid-cols-2 gap-px bg-ivory/15">
             {rare.map((point, i) => (
-              <div key={i} className="bg-navy p-8 md:p-10 flex gap-6">
+              <div
+                key={i}
+                className={`bg-navy p-8 md:p-10 flex gap-6 ${
+                  i === rare.length - 1 && rare.length % 2 === 1 ? "md:col-span-2" : ""
+                }`}
+              >
                 <div className="mono text-xs tracking-[0.2em] uppercase text-ivory/40 pt-1 shrink-0">
                   {String(i + 1).padStart(2, "0")}
                 </div>
