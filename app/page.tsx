@@ -82,7 +82,7 @@ export default function Page() {
           <div className="hidden md:flex items-center gap-8 mono text-xs tracking-[0.15em] uppercase">
             <a href="#how" className="hover:opacity-60 transition">How we work</a>
             <a href="#work" className="hover:opacity-60 transition">Work</a>
-            <a href="/tools/ll97" className="hover:opacity-60 transition">LL97 check</a>
+            <a href="/tools" className="hover:opacity-60 transition">Tools</a>
             <a href="/profile" className="hover:opacity-60 transition">Background</a>
             <a href="#contact" className="hover:opacity-60 transition">Contact</a>
             <a

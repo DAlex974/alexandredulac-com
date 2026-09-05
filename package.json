@@ -15,6 +15,7 @@
     "typecheck": "pnpm -r --if-present typecheck"
   },
   "dependencies": {
+    "@papilio/calc-core": "workspace:*",
     "@vercel/analytics": "^1.4.1",
     "lucide-react": "^0.460.0",
     "next": "15.1.11",

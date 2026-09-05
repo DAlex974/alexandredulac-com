@@ -9,7 +9,7 @@
  * `asOfYear` is explicit: no hidden clock in a pure function.
  */
 
-import { PERIOD_YEARS, type Period } from "../result.js";
+import { PERIOD_YEARS, type Period } from "../result";
 
 export const PENALTY_USD_PER_TONNE = 268;
 
