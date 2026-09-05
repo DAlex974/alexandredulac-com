@@ -1,6 +1,6 @@
 # Papilio Tools — Spec: LL97 v2 & LL33 v1
 
-**Status:** Revision 2 — incorporates review of Rev 1
+**Status:** Revision 2 — decisions confirmed 2026-09-05, ready to build
 **Owner:** Alexandre Dulac / Papilio Strategies LLC
 **Date:** September 2026
 **Scope:** `alexandredulac.com/tools/*` — public-facing calculators; shared calculation engine with BFY-Diagnostics
@@ -18,7 +18,7 @@
 | 2.6 | DOB-granted adjustments added to out-of-scope with a required UI note. |
 | 3.4 | LL33 Mode 2 returns a `predictionInterval` and a `bandCrossesThreshold` flag from calc-core; the UI does not decide when to withhold a letter. |
 | 4 | Build order revised: LL33 Mode 1 + 3 + calendar ship **before** the LL97 ESPM rebuild. |
-| 5 | Open questions resolved into decisions, marked *pending confirmation*. |
+| 5 | Open questions resolved into decisions a–h; confirmed by the owner on 2026-09-05. Decision **a** changed from preview-then-swap to **direct replacement** of v1. |
 | 6 | New: operations — limits-table audit script, runtime placement, routes, lead capture, telemetry events. |
 
 ---
@@ -310,7 +310,7 @@ On a C or D result, surface `/tools/ll97` with the caveat stated honestly: a low
 |---|---|---|
 | 1 | `calc-core` scaffold: `units/`, `result.ts`, rulesets dir, golden harness with G1–G9 | Everything else depends on it; G1 pins current v1 behaviour before anything moves |
 | 2 | **LL33 Mode 1 + Mode 3 + calendar block** at `/tools/ll33` | Days of work, zero modelling risk, immediate SEO surface ("LL33 October 1 label"), second lead-gen flow live before the first is rebuilt |
-| 3 | **LL97 v2** ESPM rebuild, multi-space, reporting-year gating, native units, cumulative exposure, PDF | The main event; ships behind a preview route (§6.3) |
+| 3 | **LL97 v2** ESPM rebuild, multi-space, reporting-year gating, native units, cumulative exposure, PDF | The main event; replaces v1 at `/tools/ll97` on merge (decision a). Goldens G1–G9 green is the release gate. |
 | 4 | LL33 Mode 2, Multifamily only, labelled beta | Highest modelling risk; benefits from Mode 1/3 usage data first |
 | 5 | Portfolio view — CSV in, table out | Separate spec. Bridge to BFY-Diagnostics and the natural upsell to multi-building owners |
 
@@ -318,11 +318,13 @@ Rev 1's "fix the electricity coefficient first" step is removed — already corr
 
 ---
 
-## 5. Decisions (pending confirmation)
+## 5. Decisions (confirmed 2026-09-05)
+
+Confirmed by the owner. **a, c, d, f** were chosen among alternatives; **b, e, g, h** had no alternative raised and stand as written.
 
 | # | Question | Decision |
 |---|---|---|
-| a | Route for v2 | Build at `/tools/ll97/preview` for ~2 weeks of testing, then swap into `/tools/ll97`. No permanent legacy route — the Reporting-year field covers CY2024/25. `/tools/ll97/preview` 301s to `/tools/ll97` after the swap. |
+| a | Route for v2 | **Direct replacement.** v2 ships at `/tools/ll97` on merge; no preview route, no legacy route. The Reporting-year field covers CY2024/25. The release gate is goldens G1–G9 green plus a manual pass on the three acceptance scenarios in §2.7. |
 | b | Multi-space consumption | Not allocated. Whole-building comparison per statute. Per-space output = limit contribution only. |
 | c | LL33 Mode 2 scope | Multifamily Housing only. Office deferred until Multifamily estimates are validated against ≥10 real DOB-issued grades. |
 | d | PDF + lead capture | Server-side PDF (`@react-pdf/renderer` in a route handler), sent via **Resend** with a copy to Alexandre. Requires `RESEND_API_KEY` on Vercel. |
@@ -355,8 +357,7 @@ These answer "where do people drop" and "which verdicts convert to calls".
 
 | Route | Status |
 |---|---|
-| `/tools/ll97` | v1 until swap; then v2 |
-| `/tools/ll97/preview` | v2 during testing; 301 → `/tools/ll97` after swap |
+| `/tools/ll97` | v1 until the v2 merge; then v2 (direct replacement, decision a) |
 | `/tools/ll33` | new |
 | `/tools` | new index page listing both tools — small SEO hub |
 
