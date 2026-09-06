@@ -58,6 +58,11 @@ export function computeEmissions(input: ComputeEmissionsInput): Result<Emissions
     if (!spec) throw new Error(`Unknown energy source "${c.source}" in ${ruleset.ruleset}.`);
 
     const coefficient = spec.coefficient[period];
+    if (coefficient === undefined) {
+      throw new Error(
+        `No emissions coefficient for "${c.source}" in ${period} (${ruleset.ruleset}@${ruleset.version}).`,
+      );
+    }
     const consumptionKBtu = toKBtu(c.value, c.unit);
     const tonnes =
       spec.per === "kWh" ? toKWh(c.value, c.unit) * coefficient : consumptionKBtu * coefficient;

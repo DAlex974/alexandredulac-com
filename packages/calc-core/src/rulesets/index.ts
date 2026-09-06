@@ -34,13 +34,15 @@ export type PeriodFactors = Record<Period, number>;
 export type LimitsRuleset = RulesetMeta & {
   units: string;
   excludedPropertyTypes?: string[];
-  factors: Record<string, PeriodFactors>;
+  /** A period may be absent while its column is still being transcribed. */
+  factors: Record<string, Partial<PeriodFactors>>;
 };
 
 export type CoefficientSpec = {
   label: string;
   per: "kWh" | "kBtu";
-  coefficient: PeriodFactors;
+  /** A period may be absent where the rule has not (yet) set a coefficient. */
+  coefficient: Partial<PeriodFactors>;
 };
 
 export type CoefficientsRuleset = RulesetMeta & {
