@@ -12,8 +12,8 @@
   "excludedPropertyTypes": ["Other", "Mixed Use"],
   "notes": [
     "60 property types × four periods, transcribed 2026-09-05 from the owner-supplied text of 1 RCNY §103-14(c)(3). From calendar year 2050 the factor is 0.00 for every type — (c)(3)(vi); the engine exposes this as ZERO_LIMIT_FROM_YEAR rather than as a fifth column.",
-    "VERIFY 1 — 'Distribution Center' 2024–2029 = 0.00574: the label was lost in the 2024–2029 paste and recovered by position from the 2030–2034 list. The 2035–2039 and 2040–2049 lists both name 'Distribution Center' in the same slot, which corroborates it. Confirm against the rule text.",
-    "VERIFY 2 — 'Laboratory' is the only type whose 2030–2034 limit (0.026029868) is HIGHER than its 2024–2029 limit (0.02381). It then tightens normally (0.019522401 in 2035–2039, 0.013014934 in 2040–2049). Transcribed verbatim; the integrity golden carries an explicit allow-list for this one step.",
+    "CONFIRMED by owner 2026-09-05 — 'Distribution Center' 2024–2029 = 0.00574. The label had been lost in the 2024–2029 paste and was recovered by position from the 2030–2034 list; the 2035–2039 and 2040–2049 lists name it in the same slot.",
+    "CONFIRMED by owner 2026-09-05 — 'Laboratory' is the only type whose 2030–2034 limit (0.026029868) is HIGHER than its 2024–2029 limit (0.02381). It then tightens normally (0.019522401 in 2035–2039, 0.013014934 in 2040–2049). The integrity golden carries an explicit allow-list for this one step.",
     "Two types reach a 0.00 limit in 2040–2049: 'Parking' and 'Performing Arts'. Transcribed verbatim.",
     "2030–2034 values were pasted as 51 labels followed by 51 values and paired by position; anchor 'Multifamily Housing' = 0.003346640 matches the value independently known from spec Rev 1. 2035–2039 and 2040–2049 were pasted fully labelled.",
     "The ten distinct 2024–2029 values are exactly the ten statutory occupancy-group values of §28-320.3.1 — DOB mapped ESPM types onto the statutory set. Later periods follow a type-specific methodology.",

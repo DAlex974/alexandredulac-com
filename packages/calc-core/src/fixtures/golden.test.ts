@@ -265,7 +265,7 @@ describe("Rulesets — integrity", () => {
   });
 
   it("ESPM limits are non-increasing across consecutive periods, except the documented step", () => {
-    // Laboratory is transcribed verbatim with a 2030 limit above its 2024 limit — flagged VERIFY in the ruleset notes.
+    // Laboratory's 2030 limit is above its 2024 limit — confirmed against the rule text by the owner on 2026-09-05.
     const ALLOWED_LOOSER_STEPS = new Set(["Laboratory:2024-2029>2030-2034"]);
     for (const [type, f] of Object.entries(ESPM_LIMITS.factors)) {
       for (let i = 1; i < PERIODS.length; i++) {
