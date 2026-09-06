@@ -9,6 +9,8 @@ import {
   COEFFICIENTS,
   ESPM_LIMITS,
   OCCUPANCY_LIMITS,
+  PERIODS,
+  ZERO_LIMIT_FROM_YEAR,
   computeEmissions,
   computePenalty,
   coverage,
@@ -62,7 +64,7 @@ describe("G1 — 450,000 sf office, occupancy basis Group B (pins live v1 output
 describe("G2 — electricity coefficient is period-dependent", () => {
   it("2030–2034 is well below 60% of 2024–2029", () => {
     const c = COEFFICIENTS.sources.electricity.coefficient;
-    expect(c["2030-2034"]).toBeLessThan(0.6 * c["2024-2029"]);
+    expect(c["2030-2034"]!).toBeLessThan(0.6 * c["2024-2029"]!);
   });
   it("electricity emissions roughly halve between periods for the same consumption", () => {
     const sources = [{ source: "electricity", value: 1_000_000, unit: "kWh" as const }];
@@ -73,7 +75,7 @@ describe("G2 — electricity coefficient is period-dependent", () => {
   });
 });
 
-describe("G3 — three-space mixed-use, area-weighted limit, no consumption allocation", () => {
+describe("G3 — three-space mixed-use: Equation 103-14.1, B = Σ lₖ·sₖ, no consumption allocation", () => {
   const synthetic: LimitsRuleset = {
     ...ESPM_LIMITS,
     ruleset: "test-espm-limits",
@@ -217,7 +219,10 @@ describe("G9 — cumulative exposure", () => {
   it("remaining years from 2026", () => {
     expect(remainingYears("2024-2029", 2026)).toBe(4);
     expect(remainingYears("2030-2034", 2026)).toBe(5);
+    expect(remainingYears("2035-2039", 2026)).toBe(5);
+    expect(remainingYears("2040-2049", 2026)).toBe(10);
     expect(remainingYears("2024-2029", 2030)).toBe(0);
+    expect(remainingYears("2035-2039", 2038)).toBe(2);
   });
   it("cumulative = annual × remaining years, undiscounted", () => {
     const p = computePenalty({ emissionsTonnes: 1_000, limitTonnes: 800, period: "2024-2029", asOfYear: 2026 });
@@ -245,42 +250,75 @@ describe("Rulesets — integrity", () => {
     }
   });
 
-  it("ESPM table: 60 types, both periods, every 2024–2029 value in the statutory set", () => {
+  it("ESPM table: 60 types × 4 periods, every 2024–2029 value in the statutory set", () => {
     const entries = Object.entries(ESPM_LIMITS.factors);
     expect(entries).toHaveLength(60);
     expect(ESPM_LIMITS.status).toBe("complete");
+    expect(PERIODS).toEqual(["2024-2029", "2030-2034", "2035-2039", "2040-2049"]);
     for (const [type, f] of entries) {
-      expect(f["2024-2029"], type).toBeDefined();
-      expect(f["2030-2034"], type).toBeDefined();
-      expect(f["2030-2034"]!, type).toBeGreaterThan(0);
+      for (const p of PERIODS) {
+        expect(f[p], `${type} ${p}`).toBeDefined();
+        expect(f[p]!, `${type} ${p}`).toBeGreaterThanOrEqual(0);
+      }
       expect(STATUTORY_2024_2029.has(f["2024-2029"]!), `${type} ${f["2024-2029"]}`).toBe(true);
     }
   });
 
-  it("ESPM 2030–2034 tightens for every type except the documented exception", () => {
-    // Laboratory is transcribed verbatim with a 2030 limit above its 2024 limit — flagged for verification in the ruleset notes.
-    const KNOWN_LOOSER_IN_2030 = new Set(["Laboratory"]);
+  it("ESPM limits are non-increasing across consecutive periods, except the documented step", () => {
+    // Laboratory is transcribed verbatim with a 2030 limit above its 2024 limit — flagged VERIFY in the ruleset notes.
+    const ALLOWED_LOOSER_STEPS = new Set(["Laboratory:2024-2029>2030-2034"]);
     for (const [type, f] of Object.entries(ESPM_LIMITS.factors)) {
-      if (KNOWN_LOOSER_IN_2030.has(type)) {
-        expect(f["2030-2034"]!, type).toBeGreaterThan(f["2024-2029"]!);
-      } else {
-        expect(f["2030-2034"]!, type).toBeLessThan(f["2024-2029"]!);
+      for (let i = 1; i < PERIODS.length; i++) {
+        const prev = f[PERIODS[i - 1]]!;
+        const next = f[PERIODS[i]]!;
+        const key = `${type}:${PERIODS[i - 1]}>${PERIODS[i]}`;
+        if (ALLOWED_LOOSER_STEPS.has(key)) {
+          expect(next, key).toBeGreaterThan(prev);
+        } else {
+          expect(next, key).toBeLessThanOrEqual(prev);
+        }
       }
     }
   });
 
-  it("ESPM spot checks against 1 RCNY §103-14(c)", () => {
+  it("only Parking and Performing Arts reach a 0.00 limit before 2050", () => {
+    const zeros = Object.entries(ESPM_LIMITS.factors)
+      .filter(([, f]) => PERIODS.some((p) => f[p] === 0))
+      .map(([type]) => type)
+      .sort();
+    expect(zeros).toEqual(["Parking", "Performing Arts"]);
+    expect(ESPM_LIMITS.factors["Parking"]["2040-2049"]).toBe(0);
+    expect(ESPM_LIMITS.factors["Performing Arts"]["2040-2049"]).toBe(0);
+    expect(ZERO_LIMIT_FROM_YEAR).toBe(2050);
+  });
+
+  it("ESPM spot checks against 1 RCNY §103-14(c)(3)", () => {
     const f = ESPM_LIMITS.factors;
-    expect(f["Office"]).toEqual({ "2024-2029": 0.00758, "2030-2034": 0.002690852 });
-    expect(f["Financial Office"]).toEqual({ "2024-2029": 0.00846, "2030-2034": 0.003697004 });
-    expect(f["Multifamily Housing"]).toEqual({ "2024-2029": 0.00675, "2030-2034": 0.00334664 }); // anchor: matches spec Rev 1
-    expect(f["Bank Branch"]).toEqual({ "2024-2029": 0.00987, "2030-2034": 0.004036172 });
-    expect(f["Bowling Alley"]).toEqual({ "2024-2029": 0.00574, "2030-2034": 0.003103815 });
-    expect(f["Distribution Center"]).toEqual({ "2024-2029": 0.00574, "2030-2034": 0.0009916 });
-    expect(f["Data Center"]).toEqual({ "2024-2029": 0.02381, "2030-2034": 0.014791131 });
-    expect(f["Parking"]).toEqual({ "2024-2029": 0.00426, "2030-2034": 0.000214421 });
-    expect(f["Worship Facility"]).toEqual({ "2024-2029": 0.00574, "2030-2034": 0.001230602 });
-    expect(f["Laboratory"]).toEqual({ "2024-2029": 0.02381, "2030-2034": 0.026029868 });
+    expect(f["Office"]).toEqual({ "2024-2029": 0.00758, "2030-2034": 0.002690852, "2035-2039": 0.00165234, "2040-2049": 0.000581893 });
+    expect(f["Financial Office"]).toEqual({ "2024-2029": 0.00846, "2030-2034": 0.003697004, "2035-2039": 0.002772753, "2040-2049": 0.001848502 });
+    expect(f["Multifamily Housing"]).toEqual({ "2024-2029": 0.00675, "2030-2034": 0.00334664, "2035-2039": 0.002692183, "2040-2049": 0.002052731 }); // 2030 anchor: matches spec Rev 1
+    expect(f["Bank Branch"]).toEqual({ "2024-2029": 0.00987, "2030-2034": 0.004036172, "2035-2039": 0.003027129, "2040-2049": 0.002018086 });
+    expect(f["Bowling Alley"]).toEqual({ "2024-2029": 0.00574, "2030-2034": 0.003103815, "2035-2039": 0.002327861, "2040-2049": 0.001551907 });
+    expect(f["Distribution Center"]).toEqual({ "2024-2029": 0.00574, "2030-2034": 0.0009916, "2035-2039": 0.000549637, "2040-2049": 0.000123568 });
+    expect(f["Data Center"]).toEqual({ "2024-2029": 0.02381, "2030-2034": 0.014791131, "2035-2039": 0.011093348, "2040-2049": 0.007395565 });
+    expect(f["Laboratory"]).toEqual({ "2024-2029": 0.02381, "2030-2034": 0.026029868, "2035-2039": 0.019522401, "2040-2049": 0.013014934 });
+    expect(f["Worship Facility"]).toEqual({ "2024-2029": 0.00574, "2030-2034": 0.001230602, "2035-2039": 0.000866921, "2040-2049": 0.000549306 });
+    expect(f["Strip Mall"]).toEqual({ "2024-2029": 0.01181, "2030-2034": 0.001361842, "2035-2039": 0.000600493, "2040-2049": 0.000038512 });
+  });
+
+  it("coefficients: 23 on-premises sources incl. fuel gas and biofuel; none beyond 2034", () => {
+    const s = COEFFICIENTS.sources;
+    expect(Object.keys(s)).toHaveLength(23);
+    expect(s.fuel_gas.coefficient["2024-2029"]).toBe(0.00005925);
+    expect(s.biofuel.coefficient["2024-2029"]).toBe(0.00007389);
+    expect(s.butane.coefficient["2024-2029"]).toBe(0.00006502);
+    for (const [key, spec] of Object.entries(s)) {
+      expect(spec.coefficient["2035-2039"], key).toBeUndefined();
+      expect(spec.coefficient["2040-2049"], key).toBeUndefined();
+    }
+    expect(() =>
+      computeEmissions({ sources: [{ source: "electricity", value: 1, unit: "kWh" }], period: "2035-2039", filingYear: 2036, computedAt: AT }),
+    ).toThrow(/No emissions coefficient for "electricity" in 2035-2039/);
   });
 
   it("an ESPM Office is tighter than occupancy Group B in both periods", () => {

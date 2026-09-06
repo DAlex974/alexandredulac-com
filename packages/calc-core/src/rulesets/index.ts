@@ -41,7 +41,8 @@ export type LimitsRuleset = RulesetMeta & {
 export type CoefficientSpec = {
   label: string;
   per: "kWh" | "kBtu";
-  coefficient: PeriodFactors;
+  /** A period may be absent where the rule has not (yet) set a coefficient. */
+  coefficient: Partial<PeriodFactors>;
 };
 
 export type CoefficientsRuleset = RulesetMeta & {
