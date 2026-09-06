@@ -230,19 +230,60 @@ describe("G9 — cumulative exposure", () => {
 });
 
 describe("Rulesets — integrity", () => {
-  it("occupancy table has the 15 statutory groups", () => {
+  // The ten statutory values of §28-320.3.1; DOB mapped every ESPM type onto one of them.
+  const STATUTORY_2024_2029 = new Set([
+    0.00426, 0.00574, 0.00675, 0.00758, 0.00846, 0.00987, 0.01074, 0.01138, 0.01181, 0.02381,
+  ]);
+
+  it("occupancy table has the 15 statutory groups, both periods, 2030 tighter", () => {
     expect(Object.keys(OCCUPANCY_LIMITS.factors)).toHaveLength(15);
+    for (const [type, f] of Object.entries(OCCUPANCY_LIMITS.factors)) {
+      expect(f["2024-2029"], type).toBeGreaterThan(0);
+      expect(f["2030-2034"], type).toBeGreaterThan(0);
+      expect(f["2030-2034"]!, type).toBeLessThan(f["2024-2029"]!);
+      expect(STATUTORY_2024_2029.has(f["2024-2029"]!), `${type} ${f["2024-2029"]}`).toBe(true);
+    }
   });
-  it("every factor is positive and 2030–2034 is tighter than 2024–2029", () => {
-    for (const rs of [OCCUPANCY_LIMITS, ESPM_LIMITS]) {
-      for (const [type, f] of Object.entries(rs.factors)) {
-        expect(f["2024-2029"], type).toBeGreaterThan(0);
-        expect(f["2030-2034"], type).toBeGreaterThan(0);
-        expect(f["2030-2034"], type).toBeLessThan(f["2024-2029"]);
+
+  it("ESPM table: 57 labelled types for 2024–2029, every value in the statutory set", () => {
+    const entries = Object.entries(ESPM_LIMITS.factors);
+    expect(entries).toHaveLength(57);
+    for (const [type, f] of entries) {
+      expect(f["2024-2029"], type).toBeDefined();
+      expect(STATUTORY_2024_2029.has(f["2024-2029"]!), `${type} ${f["2024-2029"]}`).toBe(true);
+      if (f["2030-2034"] !== undefined) {
+        expect(f["2030-2034"], type).toBeLessThan(f["2024-2029"]!);
       }
     }
   });
-  it("ESPM table is explicitly marked partial until transcribed", () => {
+
+  it("ESPM spot checks against 1 RCNY §103-14(c)(3)(i)", () => {
+    expect(ESPM_LIMITS.factors["Office"]["2024-2029"]).toBe(0.00758);
+    expect(ESPM_LIMITS.factors["Financial Office"]["2024-2029"]).toBe(0.00846);
+    expect(ESPM_LIMITS.factors["Multifamily Housing"]["2024-2029"]).toBe(0.00675);
+    expect(ESPM_LIMITS.factors["Data Center"]["2024-2029"]).toBe(0.02381);
+    expect(ESPM_LIMITS.factors["Parking"]["2024-2029"]).toBe(0.00426);
+    expect(ESPM_LIMITS.factors["Worship Facility"]["2024-2029"]).toBe(0.00574);
+  });
+
+  it("an ESPM Office is tighter than occupancy Group B for 2024–2029 (0.00758 vs 0.00846)", () => {
+    const spaces = [{ propertyType: "Office", areaSqft: 450_000 }];
+    const espm = resolveLimit({ spaces, basis: "espm", period: "2024-2029", filingYear: 2026, computedAt: AT });
+    expect(espm.value.limitTonnes).toBeCloseTo(3411, 3);
+    const occ = resolveLimit({
+      spaces: [{ propertyType: "Group B (Business)", areaSqft: 450_000 }],
+      basis: "occupancy",
+      period: "2024-2029",
+      filingYear: 2025,
+      computedAt: AT,
+    });
+    expect(occ.value.limitTonnes).toBeCloseTo(3807, 3);
+  });
+
+  it("ESPM 2030–2034 is pending except Multifamily; resolveLimit refuses rather than guesses", () => {
     expect(ESPM_LIMITS.status).toBe("partial");
+    expect(() =>
+      resolveLimit({ spaces: [{ propertyType: "Office", areaSqft: 1 }], basis: "espm", period: "2030-2034", filingYear: 2026, computedAt: AT }),
+    ).toThrow(/not transcribed for 2030-2034/);
   });
 });

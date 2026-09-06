@@ -90,6 +90,11 @@ export function resolveLimit(input: ResolveLimitInput): Result<LimitValue> {
       throw new Error(`Unknown property type "${s.propertyType}" in ${ruleset.ruleset}${hint}.`);
     }
     const factor = factors[period];
+    if (factor === undefined) {
+      throw new Error(
+        `Limit for "${s.propertyType}" is not transcribed for ${period} in ${ruleset.ruleset}@${ruleset.version}.`,
+      );
+    }
     return { ...s, factor, limitTonnes: s.areaSqft * factor };
   });
 
