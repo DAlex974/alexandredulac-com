@@ -19,8 +19,8 @@ const tools = [
     href: "/tools/ll97",
     law: "Local Law 97",
     title: "Compliance check",
-    version: "v1 · Group B",
-    desc: "Where a building sits against its 2024–2029 and 2030–2034 emissions caps, and the annual penalty at $268/tCO2e if over.",
+    version: "v2 · ESPM · Mixed-use",
+    desc: "Where a building — single-use or mixed — sits against its 2024–2029 and 2030–2034 limits on the ENERGY STAR property-type basis, the annual penalty at $268/tCO2e if over, and the cumulative exposure through 2034.",
   },
   {
     href: "/tools/ll33",
